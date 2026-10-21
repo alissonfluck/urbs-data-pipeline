@@ -1,0 +1,29 @@
+services:
+  postgres_urbs:
+    image: postgres:15
+    container_name: urbs_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: urbs_analytics
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  metabase_urbs:
+    image: metabase/metabase:latest
+    container_name: urbs_metabase
+    ports:
+      - "3000:3000"
+    
+    volumes:
+      - metabase_data:/metabase.db
+    
+    environment:
+      MB_DB_FILE: /metabase.db/metabase.db
+      MB_DB_TIMEZONE: America/Sao_Paulo
+
+volumes:
+  postgres_data:
+  metabase_data:
